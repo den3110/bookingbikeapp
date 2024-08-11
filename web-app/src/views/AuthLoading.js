@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { api } from "common";
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
 
 function AuthLoading(props) {
   const { t } = useTranslation();
@@ -31,6 +31,7 @@ function AuthLoading(props) {
     fetchSMSConfig,
     fetchFleetAdminEarnings
   } = api;
+
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const languagedata = useSelector((state) => state.languagedata);
@@ -41,37 +42,25 @@ function AuthLoading(props) {
   }, [dispatch, fetchSettings]);
 
   useEffect(() => {
-    let obj = {};
-    let def1 = {};
     if (languagedata.langlist) {
-      for (const value of Object.values(languagedata.langlist)) {
+      const obj = {};
+      let def1 = {};
+      languagedata.langlist.forEach((value) => {
         obj[value.langLocale] = value.keyValuePairs;
-        if (value.default === true) {
+        if (value.default) {
           def1 = value;
-          break;
         }
-      }
-      if(def1 && def1.langLocale){
-        const result = localStorage.getItem('lang');
-        if (result) {
-          let langLocale = JSON.parse(result)['langLocale'];
-          let dateLocale = JSON.parse(result)['dateLocale'];
-          i18n.addResourceBundle(
-            langLocale,
-            "translations",
-            obj[langLocale]
-          );
-          i18n.changeLanguage(langLocale);
-          moment.locale(dateLocale);
-        } else {
-          i18n.addResourceBundle(
-            def1.langLocale,
-            "translations",
-            obj[def1.langLocale]
-          );
-          i18n.changeLanguage(def1.langLocale);
-          moment.locale(def1.dateLocale);
-        }
+      });
+
+      const result = localStorage.getItem('lang');
+      const langData = result ? JSON.parse(result) : {};
+      const langLocale = langData.langLocale || def1.langLocale;
+      const dateLocale = langData.dateLocale || def1.dateLocale;
+
+      if (langLocale) {
+        i18n.addResourceBundle(langLocale, "translations", obj[langLocale] || {});
+        i18n.changeLanguage(langLocale);
+        moment.locale(dateLocale);
       }
 
       dispatch(fetchUser());
@@ -80,29 +69,31 @@ function AuthLoading(props) {
 
   useEffect(() => {
     if (settingsdata.settings) {
+      document.title = settingsdata.settings.appName;
       dispatch(fetchLanguages());
       dispatch(fetchCarTypes());
-      document.title = settingsdata.settings.appName;
     }
   }, [settingsdata.settings, dispatch, fetchLanguages, fetchCarTypes]);
 
   useEffect(() => {
     if (auth.profile) {
-      if (auth.profile.usertype) {
-        let role = auth.profile.usertype;
-        if (role === "customer") {
+      const role = auth.profile.usertype;
+      switch (role) {
+        case "customer":
           dispatch(fetchBookings());
           dispatch(fetchWalletHistory());
           dispatch(fetchPaymentMethods());
           dispatch(fetchCancelReasons());
           dispatch(fetchUsers());
-        } else if (role === "driver") {
+          break;
+        case "driver":
           dispatch(fetchBookings());
           dispatch(fetchWithdraws());
           dispatch(fetchPaymentMethods());
           dispatch(fetchCars());
           dispatch(fetchWalletHistory());
-        } else if (role === "admin") {
+          break;
+        case "admin":
           dispatch(fetchUsers());
           dispatch(fetchBookings());
           dispatch(fetchPromos());
@@ -118,7 +109,8 @@ function AuthLoading(props) {
           dispatch(fetchSMTP());
           dispatch(fetchSMSConfig());
           dispatch(fetchSos());
-        } else if (role === "fleetadmin") {
+          break;
+        case "fleetadmin":
           dispatch(fetchUsers());
           dispatch(fetchBookings());
           dispatch(fetchDriverEarnings());
@@ -126,14 +118,14 @@ function AuthLoading(props) {
           dispatch(fetchCancelReasons());
           dispatch(fetchPaymentMethods());
           dispatch(fetchWalletHistory());
-        } else {
+          break;
+        default:
           alert(t("not_valid_user_type"));
           dispatch(signOff());
-        }
-      } else {
-        alert(t("user_issue_contact_admin"));
-        dispatch(signOff());
       }
+    } else {
+      alert(t("user_issue_contact_admin"));
+      dispatch(signOff());
     }
   }, [
     auth.profile,
@@ -158,18 +150,21 @@ function AuthLoading(props) {
     t
   ]);
 
-  return settingsdata.loading ? (
-    <CircularLoading />
-  ) : settingsdata.settings ? (
-    auth.loading || !languagedata.langlist ? (
-      <CircularLoading />
-    ) : (
-      props.children
-    )
-  ) : (
+  if (settingsdata.loading) {
+    return <CircularLoading />;
+  }
+
+  if (settingsdata.settings) {
+    if (auth.loading || !languagedata.langlist) {
+      return <CircularLoading />;
+    }
+    return props.children;
+  }
+
+  return (
     <div>
       <span>No Database Settings found</span>
-  </div>
+    </div>
   );
 }
 

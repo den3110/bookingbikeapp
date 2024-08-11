@@ -137,6 +137,56 @@ const FirebaseProvider  = ({ config, children, AsyncStorage, token }) => {
     )
 }
 
+const FirebaseConfig = {
+    apiKey: "AIzaSyANSwlR-gyTKxCBCdhhWHgbB5Fg5-ODJ3c",
+    authDomain: "tourism-de1ac.firebaseapp.com",
+    databaseURL: "https://tourism-de1ac-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "tourism-de1ac",
+    storageBucket: "tourism-de1ac.appspot.com",
+    messagingSenderId: "204093368364",
+    appId: "1:204093368364:web:88baf7f0e2582e3f4cc989",
+    measurementId: "G-XVC8PLLSJF"
+  };
+    
+
+const functionFirebase= ()=>{
+    let app, auth, database, storage;
+
+    if (!getApps().length) {
+        try {
+            app = initializeApp(FirebaseConfig);
+
+            if (typeof document !== 'undefined') {
+                auth = initializeAuth(app, {
+                    persistence: browserLocalPersistence,
+                    popupRedirectResolver: browserPopupRedirectResolver,
+                });
+            }
+            else{
+                auth = initializeAuth(app, {
+                    persistence: getReactNativePersistence(AsyncStorage),
+                });
+            }
+            database = getDatabase(app);
+            storage = getStorage(app);
+        } catch (error) {
+            console.log("Error initializing app: " + error);
+        }
+    } else {
+        app = getApp();
+        auth = getAuth(app);
+        database = getDatabase(app);
+        storage = getStorage(app);
+    }
+
+    firebase = createFullStructure(app, database, auth, storage, FirebaseConfig);
+   return firebase
+}
+
+firebase= functionFirebase()
+
+console.log(firebase)
+
 export {
     firebase,
     FirebaseProvider,

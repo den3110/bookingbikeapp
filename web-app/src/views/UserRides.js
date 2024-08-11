@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
 import { MAIN_COLOR, SECONDORY_COLOR } from "../common/sharedFunctions";
 import { colors } from "../components/Theme/WebTheme";
 import { ThemeProvider } from '@mui/material/styles';

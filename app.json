@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "9068d3c2-e383-4f4a-8e75-23803ca88933"
+      }
+    },
+    "android": {
+      "package": "com.ptg.bab"
+    },
+    "ios": {
+      "bundleIdentifier": "com.ptg.bab"
+    }
+  }
+}

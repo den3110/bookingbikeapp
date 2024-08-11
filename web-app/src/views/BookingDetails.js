@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { colors } from "../components/Theme/WebTheme";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { makeStyles } from "@mui/styles";
 import { MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions"

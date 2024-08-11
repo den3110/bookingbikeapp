@@ -1,4 +1,4 @@
 export const GoogleMapApiConfig = {
-  ios: "your-ios-google-maps-api-key",
-  android: "your-android-google-maps-api-key"
+  ios: "AIzaSyCitkNkX3Y7cWofrWFxTqzYgjAPKTV8URw",
+  android: "AIzaSyCitkNkX3Y7cWofrWFxTqzYgjAPKTV8URw"
 };
