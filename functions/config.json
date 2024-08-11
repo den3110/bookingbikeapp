@@ -1,0 +1,19 @@
+{
+	"app_name": "Booking app bike",
+	"app_description": "Your App Description Here",
+	"app_identifier": "com.ptg.bab",
+	"ios_app_version": "1.0.0",
+	"android_app_version": "100",
+	"firebaseProjectId": "tourism-de1ac",
+	"googleApiKeys": {
+		"ios": "XXXXXXXXXXXXXXX",
+		"android": "XXXXXXXXXXXXXXX",
+		"web": "XXXXXXXXXXXXXXX",
+		"server": "XXXXXXXXXXXXXXX"
+	},
+	"expo_owner": "giangdeptrai123",
+	"expo_slug": "bookingappbike",
+	"expo_project_id": "53a1d936-cd69-401e-a729-a98471a06df7",
+	"admin_email": "datistpham@gmail.com",
+	"purchase_code": "7688d3b9-ec21-40a4-a3dc-ae69f0b52e60"
+}
