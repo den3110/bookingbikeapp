@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 import { Alert, Platform } from 'react-native';
-import i18n from 'i18n-js';
+import i18n, { l } from 'i18n-js';
 import { colors } from './src/common/theme';
 import GetPushToken from './src/components/GetPushToken';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment/min/moment-with-locales';
+import moment from 'moment';
+import en from './locales/en.json'; // Import tệp JSON của bạn
 import {
   AuthLoadingScreen,
 } from './src/screens';
@@ -80,20 +81,22 @@ export default function AppCommon({ children }) {
   }, [api]);
 
   useEffect(() => {
+    console.log("langCalled", languagedata.langlist)
     if (languagedata.langlist && langCalled.current) {
-      let obj = {};
-      let defl = {};
+      console.log(123)
+      let obj = {en};
+      let defl = {langLocale: "en"};
       for (const value of Object.values(languagedata.langlist)) {
         obj[value.langLocale] = value.keyValuePairs;
         if (value.default) {
           defl = value;
         }
       }
-      i18n.translations = obj;
+      i18n.translations = {en};
       i18n.fallbacks = true;
       AsyncStorage.getItem('lang', (err, result) => {
         if (result) {
-          i18n.locale = JSON.parse(result)['langLocale'];
+          i18n.locale = JSON.parse(result)['langLocale'] || "en";
           moment.locale(JSON.parse(result)['dateLocale']);
         } else {
           i18n.locale = defl.langLocale;
@@ -448,10 +451,11 @@ export default function AppCommon({ children }) {
     }
     dispatch(api.fetchusedreferral())
   }, [auth.error, auth.error.msg, languagedata && languagedata.langlist, settings]);
-
-  if (authStillNotResponded.current || !(languagedata && languagedata.langlist) || !settings || authState.current == 'loading') {
-    return <AuthLoadingScreen />;
-  }
+  // console.log(authStillNotResponded)]
+  console.log(authState)
+  // if (authStillNotResponded.current || !(languagedata && languagedata.langlist) || !settings || authState.current == 'loading') {
+  //   return <AuthLoadingScreen />;
+  // }
 
   const hideSplash = async () => {
     await SplashScreen.hideAsync();

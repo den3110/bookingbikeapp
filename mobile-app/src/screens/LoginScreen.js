@@ -29,7 +29,7 @@ import moment from 'moment/min/moment-with-locales';
 import rnauth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 var { width,height } = Dimensions.get('window');
-import ClientIds from '../../config/ClientIds';
+import ClientIds from '../../config/ClientIds.js';
 import { MAIN_COLOR } from "../common/sharedFunctions";
 import { Button } from "../components";
 import { fonts } from "../common/font";
@@ -102,8 +102,8 @@ export default function LoginScreen(props) {
     useEffect(() => {
         if (settings) {
             for (let i = 0; i < countries.length; i++) {
-                if (countries[i].label == settings.country) {
-                    setState({ ...state, countryCode: settings.country + " (+" + countries[i].phone + ")" })
+                if (countries[i].label == settings?.country) {
+                    setState({ ...state, countryCode: settings?.country + " (+" + countries[i].phone + ")" })
                 }
             }
         }
@@ -149,7 +149,7 @@ export default function LoginScreen(props) {
                     }
                 } else {
                     setState({ ...state, entryType: 'mobile' });
-                    if(settings.AllowCriticalEditsAdmin){
+                    if(settings?.AllowCriticalEditsAdmin){
                     let formattedNum = state.contact.replace(/ /g, '');
                     formattedNum = state.countryCode.split("(")[1].split(")")[0] + formattedNum.replace(/-/g, '');
                     if (formattedNum.length > 6) {
@@ -161,7 +161,7 @@ export default function LoginScreen(props) {
                                     setState({ ...state, verificationId: auth.verificationId });
                                     setLoading(false);
                                 }
-                                if (settings.customMobileOTP) {
+                                if (settings?.customMobileOTP) {
                                     dispatch(requestMobileOtp(formattedNum));
                                 } else {
                                     rnauth().verifyPhoneNumber(formattedNum).then((confirmation) => {
@@ -182,7 +182,7 @@ export default function LoginScreen(props) {
                                 setLoading(false);
                             } else {
                                 setIsNewUser(true);
-                                if (settings.customMobileOTP) {
+                                if (settings?.customMobileOTP) {
                                     dispatch(requestMobileOtp(formattedNum));
                                 } else {
                                     rnauth().verifyPhoneNumber(formattedNum).then((confirmation) => {
@@ -224,7 +224,7 @@ export default function LoginScreen(props) {
                 setNewUserText(true);
             }
             pageActive.current = true;
-            if (settings.customMobileOTP) {
+            if (settings?.customMobileOTP) {
                 let formattedNum = state.contact.replace(/ /g, '');
                 formattedNum = state.countryCode.split("(")[1].split(")")[0] + formattedNum.replace(/-/g, '');
                 dispatch(verifyMobileOtp(
@@ -316,7 +316,7 @@ export default function LoginScreen(props) {
     }
 
     const openTerms = async () => {
-        Linking.openURL(settings.CompanyTerms).catch(err => console.error("Couldn't load page", err));
+        Linking.openURL(settings?.CompanyTerms).catch(err => console.error("Couldn't load page", err));
     }
 
     const forgotPassword = () => {
@@ -415,7 +415,7 @@ export default function LoginScreen(props) {
                             <Text style={styles.sepText}>{t('create_new_user')}</Text>
                         : null}
 
-                        {!isNaN(state.contact) && settings.mobileLogin ?
+                        {!isNaN(state.contact) && settings?.mobileLogin ?
                             <View style={[styles.box1]}>
                                 <RNPickerSelect
                                     pickerRef={pickerRef2}
@@ -424,7 +424,7 @@ export default function LoginScreen(props) {
                                     useNativeAndroidPickerStyle={false}
                                     onTap={() => {
                                             if(settings){
-                                                if(settings.AllowCountrySelection){
+                                                if(settings?.AllowCountrySelection){
                                                     Keyboard.dismiss();
                                                     pickerRef2.current.focus();
                                                 }
@@ -439,24 +439,24 @@ export default function LoginScreen(props) {
                                     }}
                                     onValueChange={(value) => setState({ ...state, countryCode: value })}
                                     items={state.countryCodeList}
-                                    disabled={!!state.verificationId || !settings.AllowCountrySelection ? true : false}
+                                    disabled={!!state.verificationId || !settings?.AllowCountrySelection ? true : false}
                                 />
                             </View>
                             : null}
                         <View style={[styles.box2,]}>
                             <TextInput
                                 style={[styles.textInput, { textAlign: isRTL ? "right" : "left" }]}
-                                placeholder={settings.emailLogin && settings.mobileLogin ? t('contact_placeholder') : settings.emailLogin && !settings.mobileLogin ? t('email_id') : t('mobile_number')}
+                                placeholder={settings?.emailLogin && settings?.mobileLogin ? t('contact_placeholder') : settings?.emailLogin && !settings?.mobileLogin ? t('email_id') : t('mobile_number')}
                                 onChangeText={(value) => setState({ ...state, contact: value })}
                                 value={state.contact}
                                 editable={!!state.verificationId ? false : true}
                                 placeholderTextColor={colors.MAP_TEXT}
                                 autoCapitalize='none'
-                                keyboardType={settings.emailLogin ? "email-address" : "number-pad"}
+                                keyboardType={settings?.emailLogin ? "email-address" : "number-pad"}
                             />
                         </View>
 
-                        {isNaN(state.contact) || (settings.emailLogin && !settings.mobileLogin) ?
+                        {isNaN(state.contact) || (settings?.emailLogin && !settings?.mobileLogin) ?
                             <View style={[styles.passwordBox, { flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', }]}>
                                 <TextInput
                                     style={[styles.pasWordText,{paddingRight:isRTL?10:0},  { textAlign: isRTL ? "right" : "left" }]}
@@ -476,7 +476,7 @@ export default function LoginScreen(props) {
                         {state.verificationId ? null :
                             <View style={[styles.box2]}>
                                 <Button
-                                    title={settings.mobileLogin ? isNaN(state.contact) ? t('signIn') : t('request_otp') : t('signIn')}
+                                    title={settings?.mobileLogin ? isNaN(state.contact) ? t('signIn') : t('request_otp') : t('signIn')}
                                     activeOpacity={0.8}
                                     btnClick={onPressLogin}
                                     style={[loading ? styles.onClickButton : styles.materialButtonDark]}
@@ -529,7 +529,7 @@ export default function LoginScreen(props) {
                             </View>
                         : null}
 
-                        {settings.socialLogin ?
+                        {settings?.socialLogin ?
                             <View style={styles.seperator}>
                                 <View style={styles.lineLeft}></View>
                                 <View style={styles.lineLeftFiller}>
@@ -538,7 +538,7 @@ export default function LoginScreen(props) {
                                 <View style={styles.lineRight}></View>
                             </View>
                             : null}
-                        {settings.socialLogin ?
+                        {settings?.socialLogin ?
                             <View style={styles.socialBar}>
                                 <TouchableOpacity style={styles.socialIcon} onPress={GoogleLogin}>
                                     <Image

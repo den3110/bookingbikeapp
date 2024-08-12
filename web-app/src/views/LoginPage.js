@@ -58,6 +58,8 @@ export default function LoginPage(props) {
   const navigate = useNavigate();
   const auth = useSelector(state => state.auth);
   const settings = useSelector(state => state.settingsdata.settings);
+  console.log("auth", auth)
+  console.log("settings", settings)
   const dispatch = useDispatch();
   const [capatchaReady, setCapatchaReady] = React.useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -744,7 +746,7 @@ export default function LoginPage(props) {
                   :null}
                   <CardBody>
         
-                  {data.selectedcountry && settings.mobileLogin && countries && countries.length>0?
+                  {data.selectedcountry && settings?.mobileLogin && countries && countries.length>0?
                       <CountrySelect
                         countries={countries}
                         label={t('select_country')}
@@ -758,7 +760,7 @@ export default function LoginPage(props) {
                       : null}
                  
                       <CustomInput
-                        labelText={settings.emailLogin && settings.mobileLogin ? t('contact_placeholder'):settings.emailLogin && !settings.mobileLogin ? t('email_id'): t('mobile_number')}
+                        labelText={settings?.emailLogin && settings?.mobileLogin ? t('contact_placeholder'):settings?.emailLogin && !settings.mobileLogin ? t('email_id'): t('mobile_number')}
                         id="contact"
                         formControlProps={{
                           fullWidth: true
@@ -775,9 +777,9 @@ export default function LoginPage(props) {
                         onChange={onInputChange}
                         value={data.contact}
                       />
-                    {(data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin) ?
+                    {(data.contact && isNaN(data.contact)) || (settings?.emailLogin && !settings?.mobileLogin) ?
                       <CustomInput
-                      labelText={((data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin)) ? t('password') : t('otp_here')}
+                      labelText={((data.contact && isNaN(data.contact)) || (settings?.emailLogin && !settings?.mobileLogin)) ? t('password') : t('otp_here')}
                         id="otp"
                         formControlProps={{
                           fullWidth: true
@@ -833,7 +835,7 @@ export default function LoginPage(props) {
                     !data.verificationId ?
                     <div>
                       <Button className={classes.normalButton} simple color="primary" size="lg" type="submit" onClick={handleGetOTP}>
-                      <Typography fontFamily={FONT_FAMILY}>{settings.mobileLogin ? data.contact && isNaN(data.contact) ? t('login') : t('login_otp') : t('login')}</Typography>
+                      <Typography fontFamily={FONT_FAMILY}>{settings?.mobileLogin ? data.contact && isNaN(data.contact) ? t('login') : t('login_otp') : t('login')}</Typography>
                       </Button>
                       {data.contact && isNaN(data.contact) ? 
                         <Button className={classes.normalButton} simple color="primary" size="lg" onClick={()=>forgotPassword()}>

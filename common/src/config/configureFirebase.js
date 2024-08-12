@@ -5,6 +5,7 @@ import { getDatabase, ref, query, orderByChild,equalTo } from "firebase/database
 import { initializeAuth, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPhoneNumber, PhoneAuthProvider, RecaptchaVerifier, unlink, updatePhoneNumber, linkWithPhoneNumber, browserLocalPersistence, browserPopupRedirectResolver } from "firebase/auth";
 import { getStorage, ref as stRef } from "firebase/storage";
 import { getReactNativePersistence } from './react-native-persistance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FirebaseContext = createContext(null);
 
@@ -99,7 +100,8 @@ const createFullStructure = (app, db, auth, storage, config) => {
 }
 
 const FirebaseProvider  = ({ config, children, AsyncStorage, token }) => {
-    let app, auth, database, storage;
+    try {
+        let app, auth, database, storage;
 
     if (!getApps().length) {
         try {
@@ -129,6 +131,9 @@ const FirebaseProvider  = ({ config, children, AsyncStorage, token }) => {
     }
 
     firebase = createFullStructure(app, database, auth, storage, config);
+    } catch (error) {
+        console.log("error", error)
+    }
 
     return (
         <FirebaseContext.Provider value={firebase}>
@@ -146,46 +151,44 @@ const FirebaseConfig = {
     messagingSenderId: "204093368364",
     appId: "1:204093368364:web:88baf7f0e2582e3f4cc989",
     measurementId: "G-XVC8PLLSJF"
-  };
+};
     
 
-const functionFirebase= ()=>{
-    let app, auth, database, storage;
+// const functionFirebase= ()=>{
+//     let app, auth, database, storage;
 
-    if (!getApps().length) {
-        try {
-            app = initializeApp(FirebaseConfig);
+//     if (!getApps().length) {
+//         try {
+//             app = initializeApp(FirebaseConfig);
 
-            if (typeof document !== 'undefined') {
-                auth = initializeAuth(app, {
-                    persistence: browserLocalPersistence,
-                    popupRedirectResolver: browserPopupRedirectResolver,
-                });
-            }
-            else{
-                auth = initializeAuth(app, {
-                    persistence: getReactNativePersistence(AsyncStorage),
-                });
-            }
-            database = getDatabase(app);
-            storage = getStorage(app);
-        } catch (error) {
-            console.log("Error initializing app: " + error);
-        }
-    } else {
-        app = getApp();
-        auth = getAuth(app);
-        database = getDatabase(app);
-        storage = getStorage(app);
-    }
+//             if (typeof document !== 'undefined') {
+//                 auth = initializeAuth(app, {
+//                     persistence: browserLocalPersistence,
+//                     popupRedirectResolver: browserPopupRedirectResolver,
+//                 });
+//             }
+//             else{
+//                 auth = initializeAuth(app, {
+//                     persistence: getReactNativePersistence(AsyncStorage),
+//                 });
+//             }
+//             database = getDatabase(app);
+//             storage = getStorage(app);
+//         } catch (error) {
+//             console.log("Error initializing app: " + error);
+//         }
+//     } else {
+//         app = getApp();
+//         auth = getAuth(app);
+//         database = getDatabase(app);
+//         storage = getStorage(app);
+//     }
 
-    firebase = createFullStructure(app, database, auth, storage, FirebaseConfig);
-   return firebase
-}
+//     firebase = createFullStructure(app, database, auth, storage, FirebaseConfig);
+//    return firebase
+// }
 
-firebase= functionFirebase()
-
-console.log(firebase)
+// firebase= functionFirebase()
 
 export {
     firebase,

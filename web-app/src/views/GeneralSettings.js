@@ -296,7 +296,7 @@ const GeneralSettings = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (data.AllowCriticalEditsAdmin) {
-      if((data.mobileLogin === false && data.emailLogin === true) || (data.mobileLogin === true && data.emailLogin === false) || (data.mobileLogin === true && data.emailLogin === true)) {
+      if((data?.mobileLogin === false && data.emailLogin === true) || (data?.mobileLogin === true && data.emailLogin === false) || (data.mobileLogin === true && data.emailLogin === true)) {
         if (data.bonus === '') {
           alert(t('proper_bonus'))
         } else {

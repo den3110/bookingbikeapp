@@ -3,7 +3,7 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import AppContainer from './src/navigation/AppNavigator';
 import * as Notifications from 'expo-notifications';
-import * as Updates from 'expo-updates';
+// import * as Updates from 'expo-updates';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -20,9 +20,9 @@ import AppCommon from './AppCommon';
 import { FirebaseConfig } from './config/FirebaseConfig';
 import { colors } from './src/common/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SplashScreen from 'expo-splash-screen';
+// import * as SplashScreen from 'expo-splash-screen';
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -34,7 +34,7 @@ Notifications.setNotificationHandler({
 
 export default function App() {
 
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(true);
 
   useEffect(() => {
     LogBox.ignoreAllLogs(true);
@@ -102,17 +102,6 @@ export default function App() {
     }
   }
 
-  if (!assetsLoaded) {
-    return <View style={styles.container}>
-      <ImageBackground
-        source={require('./assets/images/intro.jpg')}
-        resizeMode="stretch"
-        style={styles.imagebg}
-      >
-        <ActivityIndicator style={{ paddingBottom: 100 }} color={colors.INDICATOR_BLUE} size='large' />
-      </ImageBackground>
-    </View>
-  }
 
   return (
     <Provider store={store}>
