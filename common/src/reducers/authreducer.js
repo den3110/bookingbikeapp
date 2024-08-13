@@ -38,6 +38,7 @@ export const authreducer = (state = INITIAL_STATE, action) => {
                 loading: true
             };
         case FETCH_USER_SUCCESS:
+            console.log(123)
             return {
                 ...state,
                 profile: action.payload,

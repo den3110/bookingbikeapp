@@ -58,8 +58,8 @@ export default function LoginPage(props) {
   const navigate = useNavigate();
   const auth = useSelector(state => state.auth);
   const settings = useSelector(state => state.settingsdata.settings);
-  console.log("auth", auth)
-  console.log("settings", settings)
+  // console.log("auth", auth)
+  // console.log("settings", settings)
   const dispatch = useDispatch();
   const [capatchaReady, setCapatchaReady] = React.useState(false);
   const [isLoading, setIsLoading] = useState(false);

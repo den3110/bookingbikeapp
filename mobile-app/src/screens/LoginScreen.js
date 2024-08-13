@@ -33,8 +33,9 @@ import ClientIds from '../../config/ClientIds.js';
 import { MAIN_COLOR } from "../common/sharedFunctions";
 import { Button } from "../components";
 import { fonts } from "../common/font";
+import { fetchUser } from "common/src/actions/authactions.js";
 
-GoogleSignin.configure(ClientIds);
+GoogleSignin.configure({webClientId: "204093368364-3cnet972dnj9jgju4q3vt110gomdl6aj.apps.googleusercontent.com"});
 
 export default function LoginScreen(props) {
     const {
@@ -258,6 +259,8 @@ export default function LoginScreen(props) {
         GoogleSignin.hasPlayServices().then((hasPlayService) => {
             if (hasPlayService) {
                 GoogleSignin.signIn().then(async (userInfo) => {
+                    console.log("userInfo", userInfo)
+                    dispatch(fetchUser())
                     if (userInfo.idToken) {
                         pageActive.current = true;
                         dispatch(googleLogin(userInfo.idToken, null))

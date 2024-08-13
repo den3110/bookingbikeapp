@@ -53,6 +53,7 @@ export default function AppContainer() {
     const responseListener = useRef();
     const navigationRef = useNavigationContainerRef();
     const activeBookings = useSelector(state => state.bookinglistdata.active);
+    // console.log("auth", auth)
 
     useEffect(() => {
       responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {

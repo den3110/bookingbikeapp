@@ -12,6 +12,9 @@ import { MAIN_COLOR, SECONDORY_COLOR } from "../common/sharedFunctions";
 import { appConsts } from '../common/sharedFunctions';
 var { width, height } = Dimensions.get('window');
 import { fonts } from "../common/font";
+import { useNavigation } from "@react-navigation/native";
+import { USER_SIGN_OUT } from "common/src/store/types";
+import { logout } from "common/src/actions/authactions";
 
 export default function SettingsScreen(props) {
     const { t } = i18n;
@@ -21,6 +24,7 @@ export default function SettingsScreen(props) {
     const settings = useSelector(state => state.settingsdata.settings);
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
     const [loading, setLoading] = useState(false);
+    const navigation= useNavigation()
 
     const menuList = [
         { name: t('profile_setting_menu'), navigationName: 'Profile', icon: 'account-cog-outline', type: 'material-community' },
@@ -131,12 +135,17 @@ export default function SettingsScreen(props) {
         auth && auth.profile && auth.profile.usertype == 'driver' ? StopBackgroundLocation() : null;
         setLoading(true);
         if (auth && auth.profile && auth.profile.usertype === 'driver') { StopBackgroundLocation() };
+        // StopBackgroundLocation()
 
         setTimeout(() => {
             if (auth && auth.profile && auth.profile.pushToken) {
                 dispatch(updateProfile({ pushToken: null }));
             }
-            dispatch(signOff());
+            console.log("logout")
+            dispatch(updateProfile({ pushToken: null }));
+            dispatch(logout());
+            // dispatch({})
+            
         }, 1000);
     }
 

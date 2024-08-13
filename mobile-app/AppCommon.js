@@ -45,6 +45,7 @@ export default function AppCommon({ children }) {
   const activeBooking = useSelector(state => state.bookinglistdata.tracked);
   const lastLocation = useSelector(state => state.locationdata.coords);
   const auth = useSelector(state => state.auth);
+  // console.log("auth", auth)
   const settings = useSelector(state => state.settingsdata.settings);
   const watcher = useRef();
   const locationOn = useRef(false);
@@ -452,7 +453,8 @@ export default function AppCommon({ children }) {
     dispatch(api.fetchusedreferral())
   }, [auth.error, auth.error.msg, languagedata && languagedata.langlist, settings]);
   // console.log(authStillNotResponded)]
-  console.log(authState)
+  console.log("auth", auth)
+  console.log("authState", authState)
   // if (authStillNotResponded.current || !(languagedata && languagedata.langlist) || !settings || authState.current == 'loading') {
   //   return <AuthLoadingScreen />;
   // }
