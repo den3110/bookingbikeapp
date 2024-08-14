@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from 'common';
 import { useTranslation } from "react-i18next";
-import langlocales from '../lists/langlocales';
-import datelocales from '../lists/datelocales';
+// import langlocales from '../lists/langlocales';
+// import datelocales from '../lists/datelocales';
 import MaterialTable from 'material-table';
 import { useSelector, useDispatch } from "react-redux";
 import BookIcon from '@mui/icons-material/Book';
@@ -74,12 +74,12 @@ export default function LanguageSetting(props) {
     {
       title: t('langLocale'),
       field: 'langLocale',
-      lookup: langlocales,
+      // lookup: langlocales,
     },
     {
       title: t('dateLocale'),
       field: 'dateLocale',
-      lookup: datelocales, 
+      // lookup: datelocales, 
     }
   ];
 

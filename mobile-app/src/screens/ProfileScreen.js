@@ -25,7 +25,7 @@ import { api, FirebaseContext } from 'common';
 import StarRating from 'react-native-star-rating-widget';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from '../components/RNPickerSelect';
-import moment from 'moment/min/moment-with-locales';
+import moment from 'moment';
 import { MaterialIcons, Ionicons, Entypo, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { MAIN_COLOR } from '../common/sharedFunctions';
 import Dialog from "react-native-dialog";
@@ -622,7 +622,7 @@ export default function ProfileScreen(props) {
                                                 }
                                                 setLangSelection(text);
                                                 i18n.locale = text;
-                                                moment.locale(defl.dateLocale);
+                                                // moment.locale(defl.dateLocale);
                                                 setIsRTL(text == 'he' || text == 'ar')
                                                 AsyncStorage.setItem('lang', JSON.stringify({ langLocale: text, dateLocale: defl.dateLocale }));
                                                 dispatch(updateProfile({ lang: { langLocale: text, dateLocale: defl.dateLocale } }));

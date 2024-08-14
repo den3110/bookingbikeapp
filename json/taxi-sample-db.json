@@ -153,7 +153,7 @@
             "langName": "English",
             "langLocale": "en",
             "default":true,
-            "dateLocale": "en-gb"
+            "dateLocale": "en"
         }
     },
     "payment_settings": {

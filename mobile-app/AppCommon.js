@@ -9,10 +9,10 @@ import { colors } from './src/common/theme';
 import GetPushToken from './src/components/GetPushToken';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
-import en from './locales/en.json'; // Import tệp JSON của bạn
-import {
-  AuthLoadingScreen,
-} from './src/screens';
+import en from './locales/en.json';
+// import {
+//   AuthLoadingScreen,
+// } from './src/screens';
 import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -98,10 +98,10 @@ export default function AppCommon({ children }) {
       AsyncStorage.getItem('lang', (err, result) => {
         if (result) {
           i18n.locale = JSON.parse(result)['langLocale'] || "en";
-          moment.locale(JSON.parse(result)['dateLocale']);
+          // moment.locale(JSON.parse(result)['dateLocale']);
         } else {
           i18n.locale = defl.langLocale;
-          moment.locale(defl.dateLocale);
+          // moment.locale(defl.dateLocale);
         }
       });
       dispatch(api.fetchUser());
@@ -400,7 +400,7 @@ export default function AppCommon({ children }) {
         if (auth.profile.lang) {
           const lang = auth.profile.lang;
           i18n.locale = lang['langLocale'];
-          moment.locale(lang['dateLocale']);
+          // moment.locale(lang['dateLocale']);
         }
         let role = auth.profile.usertype;
           saveToken();

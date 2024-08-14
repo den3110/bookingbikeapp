@@ -55,12 +55,12 @@ function AuthLoading(props) {
       const result = localStorage.getItem('lang');
       const langData = result ? JSON.parse(result) : {};
       const langLocale = langData.langLocale || def1.langLocale;
-      const dateLocale = langData.dateLocale || def1.dateLocale;
+      // const dateLocale = langData.dateLocale || def1.dateLocale;
 
       if (langLocale) {
         i18n.addResourceBundle(langLocale, "translations", obj[langLocale] || {});
         i18n.changeLanguage(langLocale);
-        moment.locale(dateLocale);
+        // moment.locale(dateLocale);
       }
 
       dispatch(fetchUser());
